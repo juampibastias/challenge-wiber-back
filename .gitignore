@@ -1,0 +1,24 @@
+# Ignorar archivos creados por el entorno virtual de Python
+\lib\site-packages\setuptools\setuptools.zip
+\lib\site-packages\setuptools-65.5.0.dist-info
+\distutils_hack
+\Pip
+\pip-23.1.2.dist-info
+\pkg_resources
+\Scripts\activate
+\Scripts\activate.bat
+\Scripts\Activate.ps1
+\Scripts\deactivate.bat
+\pip.exe
+\pip3.11.exe
+\pip3.exe
+\python.exe
+\pythonw.exe
+\venv
+\Include
+
+# Ignorar archivos binarios o de configuración
+\app.pyc
+\app.pyo
+\Dockerfile
+\requirements.txt
