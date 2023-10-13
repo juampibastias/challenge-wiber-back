@@ -33,16 +33,16 @@ def scripts():
         data = request.get_json()
         name = data.get("name")
         text = data.get("text")
+        # Obtener la fecha y la hora actuales en el servidor
+        current_date_time = datetime.now()
+        formatted_date = current_date_time.strftime("%d/%m/%y")
+        formatted_time = current_date_time.strftime("%H:%M")
         new_script = {
             "name": name,
             "text": text,
-            "date": data.get(
-                "date"
-            ),  # Obtén la fecha del objeto data enviado desde el frontend
-            "time": data.get(
-                "time"
-            ),  # Obtén la hora del objeto data enviado desde el frontend
-            "versions": [],  # Inicializa el array de versiones vacío
+            "date": formatted_date,
+            "time": formatted_time,
+            "versions": [],
         }
         mongo.db.scripts.insert_one(new_script)
         created_script = mongo.db.scripts.find_one(new_script)
@@ -74,27 +74,18 @@ def script(script_id):
     elif request.method == "PUT":
         data = request.get_json()
         updated_text = data["script"]
-
-        # Obtiene el script actual
-        script = mongo.db.scripts.find_one({"_id": ObjectId(script_id)})
-
-        # Crea un objeto con la versión anterior del script
-        previous_version = {
-            "text": script["text"],
-            "date": script["date"],
-            "time": script["time"],
-        }
-
-        # Agrega la versión anterior al array de versions
+        # Obtener la fecha y la hora actuales en el servidor
+        current_date_time = datetime.now()
+        updated_date = current_date_time.strftime("%d/%m/%y")
+        updated_time = current_date_time.strftime("%H:%M")
         mongo.db.scripts.update_one(
             {"_id": ObjectId(script_id)},
             {
                 "$set": {
                     "text": updated_text,
-                    "date": data.get("date"),
-                    "time": data.get("time"),
+                    "date": updated_date,  # Actualizar la fecha
+                    "time": updated_time,  # Actualizar la hora
                 },
-                "$push": {"versions": previous_version},
             },
         )
         return jsonify({"message": "Script actualizado correctamente"}), 200
